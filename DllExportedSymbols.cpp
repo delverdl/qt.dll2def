@@ -470,22 +470,22 @@ CDllExportedSymbols::CDllExportedSymbols()
 //-----------------------------------------------------------------------------
 // External functions
 
-ECfesResult dllCheckExports(const char *dllPath, const char *symbols[], int symbolCount)
+ECfesResult dllCheckExports(const char *path, const char *symbols[], int nSymbol)
 {
   CDllExportedSymbols *cfes = CDllExportedSymbols::instance();
 
   assert(cfes != 0);
-  return cfes->test(dllPath, symbols, symbolCount);
+  return cfes->test(path, symbols, nSymbol);
 }
 
-ECfesResult dllEnumExports(const char *dllPath, void (*callback)(const char*))
+ECfesResult dllEnumExports(const char *path, void (*cb)(const char *, void *), void *dta)
 {
   CDllExportedSymbols       *cfes = CDllExportedSymbols::instance();
   std::list<std::string>    sSymbols;
   ECfesResult               result;
 
   assert(cfes != 0);
-  result = cfes->list(dllPath, sSymbols);
+  result = cfes->list(path, sSymbols);
   if (result == eCfesOK)
   {
     for (std::list<std::string>::const_iterator i = sSymbols.cbegin();
@@ -493,7 +493,7 @@ ECfesResult dllEnumExports(const char *dllPath, void (*callback)(const char*))
     {
       const std::string s = *i;
 
-      callback(s.c_str());
+      cb(s.c_str(), dta);
     }
   }
   return result;

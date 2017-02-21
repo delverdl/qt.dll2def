@@ -19,10 +19,10 @@ enum ECfesResult
 
 // Checks if the specified file is a real DLL that exports all
 // the specified functions.
-ECfesResult dllCheckExports(const char *dllPath, const char* symbols[], int symbolCount);
+ECfesResult dllCheckExports(const char *path, const char* symbols[], int nSymbol);
 
 // Enumerate exported funcions in a DLL
-ECfesResult dllEnumExports(const char *dllPath, void (*callback)(const char*));
+ECfesResult dllEnumExports(const char *path, void (*cb)(const char *, void *), void *dta);
 
 // Release memory for internal class instance
 ECfesResult dllReleaseMemory();
